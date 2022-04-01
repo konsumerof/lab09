@@ -8,7 +8,8 @@ jobs:
 
       steps:
         - uses: actions/checkout@v3
-
+        - name: pub get
+          working-directory: lab05
         - name: banking-build-check
           shell: bash
           run: |
