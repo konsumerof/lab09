@@ -12,7 +12,6 @@ jobs:
           shell: bash
           run: |
             pip install --user cpp-coveralls
-            git submodule add https://github.com/google/googletest third-party/gtest
             cmake -H. -B_build -DBUILD_TESTS=ON
             cmake --build _build
             cd _build
