@@ -25,6 +25,7 @@ jobs:
         cmake -B ./output
         cd output
         make
+        cd ..
         ./tests
     - name: lcov
       run: |
