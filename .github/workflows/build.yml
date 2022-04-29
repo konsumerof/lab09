@@ -3,20 +3,39 @@ name: build-check
 on: push
 
 jobs:
-   build:
-      runs-on: [ubuntu-latest]
-      defaults:
-        run:
-          working-directory: third-party/gtest
-
-      steps:
-        - uses: actions/checkout@v3
-        - name: banking-build-check
-          shell: bash
-          run: |
-            git submodule update --init --recursive
-            pip install --user cpp-coveralls
-            cmake -H. -B_build -DBUILD_TESTS=ON
-            cmake --build _build
-            cd ..
-            coveralls --root . -E ".*gtest.*" -E ".*CMakeFiles.*"
+ my_build:
+  runs-on: ubuntu-latest
+  steps:
+   - name: checkout
+     uses: actions/checkout@v1
+   - name: build
+     run: |
+      git submodule update --init --recursive
+      cmake -B ./output
+      cd output
+      make
+ tests:
+  runs-on: ubuntu-latest
+  steps:
+    - name: checkout
+      uses: actions/checkout@v1
+    - name: tests
+      run: |
+        git submodule update --init --recursive
+        cmake -B ./output
+        cd output
+        make
+        ./tests
+    - name: lcov
+      run: |
+       sudo pip install --user cpp-coveralls
+       sudo apt-get install -y lcov
+    - name: run
+      run: |
+       lcov --capture --directory output/CMakeFiles/banking.dir/banking --output-file ./lcov.info
+       lcov --remove ./lcov.info '/home/runner/work/tp-lab05/tp-lab05/third-party/gtest/*' -o ./lcov_filtered.info
+    - name: coveralls
+      uses: coverallsapp/github-action@master
+      with:
+          path-to-lcov: "./lcov_filtered.info"
+          github-token: ${{ secrets.github_token }}
