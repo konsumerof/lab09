@@ -26,7 +26,7 @@ jobs:
         cd output
         make
         cd ..
-        git update-index --chmod=+x ./tests/tests.cpp
+        git update-index --chmod=+x ./.github/tests/tests.cpp
         ./tests/tests.cpp
     - name: lcov
       run: |
