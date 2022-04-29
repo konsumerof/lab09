@@ -3,7 +3,7 @@ name: build-check
 on: push
 
 jobs:
- my_build:
+ build:
   runs-on: ubuntu-latest
   steps:
    - name: checkout
@@ -15,26 +15,29 @@ jobs:
       cd output
       make
  tests:
-  runs-on: ubuntu-latest
-  steps:
-    - name: checkout
-      uses: actions/checkout@v1
-    - name: tests
-      run: |
-        git submodule update --init --recursive
-        cmake -B ./output
-        cd output
-        make
-    - name: lcov
-      run: |
-       sudo pip install --user cpp-coveralls
-       sudo apt-get install -y lcov
-    - name: run
-      run: |
-       lcov --capture --directory output/CMakeFiles/banking.dir/banking --output-file ./lcov.info
-       lcov --remove ./lcov.info '/home/runner/work/tp-lab05/tp-lab05/third-party/gtest/*' -o ./lcov_filtered.info
-    - name: coveralls
-      uses: coverallsapp/github-action@master
-      with:
-          path-to-lcov: "./lcov_filtered.info"
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@master
+
+      - name: test
+        shell: bash
+        run: |
+          git submodule update --init --recursive
+          cmake -B build
+          cd build
+          make ./tests
+          ./tests
+      - name: install lcov
+        run: |
+          sudo apt-get install -y lcov
+      - name: run lcov
+        run: | 
+          lcov --capture --directory build/CMakeFiles/banking.dir/banking --output-file lcov.info
+          lcov --remove lcov.info '/usr/include/*' -o lcov.info
+          lcov --remove lcov.info '/home/runner/work/lab05/lab05/third-party/gtest/*' -o lcov.info
+      - name: coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          path-to-lcov: "./lcov.info"
           github-token: ${{ secrets.github_token }}
