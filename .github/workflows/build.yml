@@ -26,7 +26,7 @@ jobs:
         cd output
         make
         cd ..
-        ./tests
+        ./tests/tests.cpp
     - name: lcov
       run: |
        sudo pip install --user cpp-coveralls
