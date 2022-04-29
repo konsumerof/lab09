@@ -27,7 +27,8 @@ jobs:
           cmake -B build
           cd build
           make
-          ./tests
+          cd ..
+          ./tests/tests.cpp
       - name: install lcov
         run: |
           sudo apt-get install -y lcov
