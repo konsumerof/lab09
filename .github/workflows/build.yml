@@ -26,7 +26,7 @@ jobs:
           git submodule update --init --recursive
           cmake -B build
           cd build
-          make unit-test
+          make test
           ./tests
       - name: install lcov
         run: |
