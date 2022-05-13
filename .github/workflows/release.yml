@@ -8,6 +8,7 @@ jobs:
     steps:
       - name: build
         run: |
+          git submodule update --init --recursive
           cmake -B ./output
           cd output
           make
