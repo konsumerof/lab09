@@ -28,3 +28,18 @@ jobs:
           body_path: CHANGELOG.md
         env:
           GITHUB_TOKEN: ${{ github.token }}
+      - name: upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: banking
+          path: |
+            ./banking
+      - name: download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: banking
+          path: ./artifact
+      - name: display
+        run: |
+          ls -R
+        working-directory: ./artifact
