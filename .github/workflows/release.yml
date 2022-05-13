@@ -7,7 +7,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: build
-        run: make build
+        run: |
+          cmake -B ./output
+          cd output
+          make
       - name: version
         run: echo "::set-output name=version::$(./bin/azblogfilter --version)"
         id: version
