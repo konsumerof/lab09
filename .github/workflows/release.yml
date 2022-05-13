@@ -39,7 +39,3 @@ jobs:
         with:
           name: banking
           path: ./artifact
-      - name: display
-        run: |
-          ls -R
-        working-directory: ./artifact
