@@ -1,3 +1,42 @@
+## Отчёт
+1. Скопировал lab05 в данный репозиторий, чтобы было из чего делать артефакт
+2. Создал release.yml в GitHub Actions, чтобы через него реализовать создание артефактов
+3. Сделал checkout и скомпилировал программу
+
+```sh
+- name: checkout
+        uses: actions/checkout@v1
+      - name: build
+        run: |
+          git submodule update --init --recursive
+          cmake -B ./output
+          cd output
+          make
+```
+
+4. Загрузил артефакт с помощью actions/upload-artifact@v3
+
+```sh
+- name: upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: banking
+          path: ./banking
+```
+
+5. Скачал артефакт с помощью actions/download-artifact@v3
+
+```sh
+- name: download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: banking
+          path: ./artifact
+```
+В результате получил артефакт на выходе в GitHub Actions
+
+6. Сделал релиз с помощью GitHub Release
+
 ## Laboratory work V
 
 Данная лабораторная работа посвещена изучению фреймворков для тестирования на примере **GTest**
