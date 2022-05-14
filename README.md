@@ -35,7 +35,11 @@
 ```
 В результате получил артефакт на выходе в GitHub Actions
 
+![image](https://user-images.githubusercontent.com/90759633/168414228-328af028-8f4e-4c51-9809-8e77459b7c5a.png)
+
 6. Сделал релиз с помощью GitHub Release
+
+![image](https://user-images.githubusercontent.com/90759633/168414210-c7856216-5118-43f1-b7b0-4cb2843293f0.png)
 
 ## Laboratory work V
 
